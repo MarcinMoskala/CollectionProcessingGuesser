@@ -94,25 +94,19 @@ suspend fun generateCollectionProcessingChallengeOrNull(
     return CollectionProcessingChallenge(start, chosenProcessors, result, resultType, fruitsUsed)
 }
 
-private fun anyGroupOfProcessingStepsIsRedundant(
-    start: List<Fruit>,
-    steps: List<Processor>,
-    result: Any,
-): Boolean {
-    steps.forEachIndexed { startStepIndex, startStep ->
-        val stepsBefore = steps.take(startStepIndex)
-        steps.withIndex()
-            .drop(startStepIndex + 1)
-            .filter { (index, value) ->
-                startStep.to.isSubtypeOf(value.from)
-            }
-            .forEach { (endStepIndex, endStep) ->
-                val stepAfter = steps.drop(endStepIndex)
-                val resultFromSubsteps = (stepsBefore + stepAfter).tryProcessAll(start)
-                if (resultFromSubsteps == result) {
+private fun anyGroupOfProcessingStepsIsRedundant(start: List<Fruit>, steps: List<Processor>, result: Any): Boolean {
+    for (indexOfStartCut in steps.indices) {
+        for (indexOfEndCut in (indexOfStartCut + 1) until steps.size) {
+            val stepsBefore = steps.take(indexOfStartCut)
+            val stepsAfter = steps.drop(indexOfEndCut)
+            val typeResultOfStepsBefore = stepsBefore.lastOrNull()?.to ?: typeOf<List<Fruit>>()
+            val typeStartOfStepsAfter = stepsAfter.firstOrNull()?.from ?: continue // TODO: The last step might be redundant
+            if (typeResultOfStepsBefore.isSubtypeOf(typeStartOfStepsAfter)) {
+                if ((stepsBefore + stepsAfter).tryProcessAll(start) == result) {
                     return true
                 }
             }
+        }
     }
     return false
 }
