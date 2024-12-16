@@ -10,6 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +47,14 @@ fun TypeChooser(
     if (typeChosen == null) {
         TypeChooserSelector(
             types = types,
-            onChosen = { setTypeChosen(it) },
+            onChosen = {
+                // Do not choose the comment about correct answer
+                if (it == correctType) {
+                    onAnswer(true)
+                } else {
+                    setTypeChosen(it)
+                }
+           },
             modifier = modifier
         )
     } else {

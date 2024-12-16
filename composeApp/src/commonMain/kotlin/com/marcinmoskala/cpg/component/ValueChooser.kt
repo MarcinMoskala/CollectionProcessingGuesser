@@ -16,12 +16,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.SpanStyle
@@ -139,6 +142,10 @@ fun BooleanChooser(onChosen: (Boolean) -> Unit = {}) {
 @Composable
 fun TextAnswer(onChosen: (String) -> Unit = {}) {
     val (text, setText) = remember { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(onChosen) {
+        focusRequester.requestFocus()
+    }
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -154,6 +161,7 @@ fun TextAnswer(onChosen: (String) -> Unit = {}) {
             onValueChange = setText,
             label = { Text("What string is it?") },
             modifier = Modifier.fillMaxWidth()
+                .focusRequester(focusRequester)
         )
         Button(
             onClick = { onChosen(text) },
@@ -171,6 +179,10 @@ fun TextAnswer(onChosen: (String) -> Unit = {}) {
 @Composable
 fun IntAnswer(onChosen: (Int) -> Unit = {}) {
     val (text, setText) = remember { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(onChosen) {
+        focusRequester.requestFocus()
+    }
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -188,6 +200,7 @@ fun IntAnswer(onChosen: (Int) -> Unit = {}) {
             },
             label = { Text("What number is it?") },
             modifier = Modifier.fillMaxWidth()
+                .focusRequester(focusRequester)
         )
         Button(
             enabled = text.toIntOrNull() != null,
@@ -205,6 +218,10 @@ fun IntAnswer(onChosen: (Int) -> Unit = {}) {
 @Composable
 fun DoubleAnswer(onChosen: (Double) -> Unit = {}) {
     val (text, setText) = remember { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(onChosen) {
+        focusRequester.requestFocus()
+    }
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -222,6 +239,7 @@ fun DoubleAnswer(onChosen: (Double) -> Unit = {}) {
             },
             label = { Text("What number is it?") },
             modifier = Modifier.fillMaxWidth()
+               .focusRequester(focusRequester)
         )
         Button(
             enabled = text.toDoubleOrNull() != null,
