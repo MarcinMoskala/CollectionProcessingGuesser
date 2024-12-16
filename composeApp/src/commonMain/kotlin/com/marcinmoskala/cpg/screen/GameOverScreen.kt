@@ -73,7 +73,13 @@ fun GameOverScreen(
                         append("Compose Multiplatform")
                     }
                 }
-                append(".\n\nIf you want to improve your compose skills,\ncheck out ")
+                append(".\n\nIf you want to improve your collection processing skills,\ncheck out ")
+                withLink(LinkAnnotation.Url(url = "https://kt.academy/book/functional_kotlin")) {
+                    withStyle(style = hyperlinkStyle) {
+                        append("Functional Kotlin book")
+                    }
+                }
+                append(" or ")
                 withLink(LinkAnnotation.Url(url = "https://kt.academy/#workshops-offer")) {
                     withStyle(style = hyperlinkStyle) {
                         append("my workshops")
