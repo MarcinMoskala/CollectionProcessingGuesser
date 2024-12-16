@@ -2,9 +2,9 @@ package functional
 
 import com.marcinmoskala.composeexercises.ui.samples.guesser.domain.Level
 import kotlinx.coroutines.yield
+import kotlin.random.Random
 import kotlin.reflect.KClass
 import kotlin.reflect.KClassifier
-import kotlin.reflect.KProperty1
 import kotlin.reflect.KType
 import kotlin.reflect.KTypeProjection
 import kotlin.reflect.KVariance
@@ -88,6 +88,9 @@ suspend fun generateCollectionProcessingChallengeOrNull(
     if (anyGroupOfProcessingStepsIsRedundant(start, chosenProcessors, result)) {
         return null
     }
+    if (Random.nextBoolean() && resultIsEmpty(result)) { // Empty results were too common
+        return null
+    }
     return CollectionProcessingChallenge(start, chosenProcessors, result, resultType, fruitsUsed)
 }
 
@@ -114,6 +117,16 @@ private fun anyGroupOfProcessingStepsIsRedundant(
     return false
 }
 
+private fun resultIsEmpty(result: Any): Boolean = when (result) {
+    is List<*> -> result.isEmpty()
+    is Set<*> -> result.isEmpty()
+    is Map<*, *> -> result.isEmpty()
+    is String -> result.isEmpty()
+    is Int -> result == 0
+    is Double -> result == 0.0
+    else -> false
+}
+
 fun List<Processor>.tryProcessAll(start: Any?): Any? {
     return try {
         fold(start) { acc, processor -> processor.tryProcess(acc) ?: return null }
@@ -131,17 +144,19 @@ data class CollectionProcessingChallenge(
 ) {
     fun toDisplayString() = buildString {
         appendLine(start.joinToString(prefix = "listOf(", postfix = ")") { it.icon })
-        steps.forEach { appendLine("   ." + it.display) }
+        steps.forEachIndexed { i, it ->
+            if (i != 0) append("\n")
+            append("   ." + it.display)
+        }
     }
 
-    fun fruitPropertiesUsed(): List<KProperty1<Fruit, *>> {
+    val fruitPropertiesUsed by lazy {
         val stepsAsString = steps.joinToString { it.display }
-        return listOf(
+        listOf(
             Fruit::color,
             Fruit::name,
             Fruit::price
-        )
-            .filter { it.name in stepsAsString }
+        ).filter { it.name in stepsAsString }
     }
 }
 
@@ -444,8 +459,6 @@ val processors = listOf(
         ProcessorCategory.Filter
     ) { it.filter { it.value > 4.0 } },
 )
-
-val resultTypes = processors.map { it.to }.distinct().associateBy { it.classifierName }
 
 val KType.classifierName: String
     get() = classifier?.name.orEmpty()

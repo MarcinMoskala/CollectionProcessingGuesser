@@ -96,13 +96,14 @@ fun CollectionProcessingGuesser(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(10.dp),
         ) {
-            FruitPropertiesTable(
-                challenge.fruitsUsed,
-                challenge.fruitPropertiesUsed()
-            )
+            if (challenge.fruitsUsed.isNotEmpty() && challenge.fruitPropertiesUsed.isNotEmpty()) {
+                FruitPropertiesTable(
+                    challenge.fruitsUsed,
+                    challenge.fruitPropertiesUsed
+                )
+            }
             Box(
                 modifier = Modifier.align(Alignment.CenterVertically)
-                    .padding(top = 5.dp)
             ) {
                 Code(challenge.toDisplayString())
             }
