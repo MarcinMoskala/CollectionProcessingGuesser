@@ -124,6 +124,9 @@ compose.desktop {
 tasks.register<Copy>("updateDocs") {
     dependsOn("wasmJsBrowserDistribution")
     mustRunAfter("wasmJsBrowserDistribution")
+    doFirst {
+        delete("$rootDir/docs/")
+    }
     from("$buildDir/dist/wasmJs/productionExecutable/")
     into("$rootDir/docs/")
 }
