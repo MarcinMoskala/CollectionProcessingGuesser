@@ -6,7 +6,21 @@
     <title>CollectionProcessingGuesser</title>
     <link type="text/css" rel="stylesheet" href="styles.css">
     <script type="application/javascript" src="composeApp.js"></script>
+    <script>
+        setTimeout(function(){
+            let noWasmComment = document.getElementById('no_wasm_comment');
+            if (noWasmComment && noWasmComment.style) noWasmComment.style.visibility = "visible";
+            let spinner = document.getElementById('spinner');
+            if (spinner && spinner.style) spinner.style.visibility = "hidden";
+        }, 5000);
+    </script>
 </head>
 <body>
+<div id="spinner" style="visibility: visible; text-align: center;position: absolute; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -50%);">
+    <img src="spinner.gif" alt="spinner" width="100" height="100">
+</div>
+<div id="no_wasm_comment" style="visibility: hidden; text-align: center;position: absolute; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -50%);">
+    If you see this comment, it means you likely opened this website on iOS, which currently does not support the WasmGC, so this game (written in wasm) won't work. Sorry. You can open it in any other popular operating system, or you can update your iOS to the latest (development) version.
+</div>
 </body>
 </html>
