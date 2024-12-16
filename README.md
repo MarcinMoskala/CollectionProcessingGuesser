@@ -1,4 +1,4 @@
-This is a fun game written in Kotlin using Compose for Wasm. You can play it under [https://marcinmoskala.com/ModifierOrderGuesser/](https://marcinmoskala.com/ModifierOrderGuesser/).
+This is a fun game written in Kotlin using Compose for Wasm. You can play it under [https://marcinmoskala.com/CollectionProcessingGuesser/](https://marcinmoskala.com/CollectionProcessingGuesser/).
 
 To run, use:
 
