@@ -98,8 +98,11 @@ private fun anyGroupOfProcessingStepsIsRedundant(
 ): Boolean {
     steps.forEachIndexed { startStepIndex, startStep ->
         val stepsBefore = steps.take(startStepIndex)
-        steps.withIndex().drop(startStepIndex + 1)
-            .filter { (index, value) -> value.to.isSubtypeOf(startStep.from) }
+        steps.withIndex()
+            .drop(startStepIndex + 1)
+            .filter { (index, value) ->
+                startStep.to.isSubtypeOf(value.from)
+            }
             .forEach { (endStepIndex, endStep) ->
                 val stepAfter = steps.drop(endStepIndex)
                 val resultFromSubsteps = (stepsBefore + stepAfter).tryProcessAll(start)
