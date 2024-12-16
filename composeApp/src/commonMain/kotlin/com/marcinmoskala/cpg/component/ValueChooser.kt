@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.Button
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -143,6 +146,11 @@ fun TextAnswer(onChosen: (String) -> Unit = {}) {
     ) {
         TextField(
             value = text,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { onChosen(text) }
+            ),
             onValueChange = setText,
             label = { Text("What string is it?") },
             modifier = Modifier.fillMaxWidth()
@@ -170,6 +178,11 @@ fun IntAnswer(onChosen: (Int) -> Unit = {}) {
     ) {
         TextField(
             value = text,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { onChosen(text.toInt()) }
+            ),
             onValueChange = { value: String ->
                 setText(value.filter { it.isDigit() })
             },
@@ -199,6 +212,11 @@ fun DoubleAnswer(onChosen: (Double) -> Unit = {}) {
     ) {
         TextField(
             value = text,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { onChosen(text.toDouble()) }
+            ),
             onValueChange = { value: String ->
                 setText(value.filter { it.isDigit() || it == '.' })
             },
