@@ -12,8 +12,8 @@ data class GameOver(val score: Level) : GameState
 
 class Level(val value: Int) {
     operator fun plus(i: Int) = Level(value + i)
-    val fruitsNum get() = minOf(3 + value / 4, 8)
-    val stepsNum get() = minOf(1 + (value + 2) / 4, 14)
+    val fruitsNum get() = minOf(3 + value / 4, 14)
+    val stepsNum get() = minOf(1 + (value + 2) / 4, 8)
 }
 
 fun start(): GameState = Playing(
