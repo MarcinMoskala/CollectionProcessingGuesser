@@ -16,6 +16,7 @@ import com.marcinmoskala.composeexercises.ui.samples.guesser.domain.Playing
 import com.marcinmoskala.composeexercises.ui.samples.guesser.domain.Start
 import com.marcinmoskala.composeexercises.ui.samples.guesser.domain.onAnswerGiven
 import com.marcinmoskala.composeexercises.ui.samples.guesser.domain.start
+import com.marcinmoskala.composeexercises.ui.samples.guesser.trackEvent
 import com.marcinmoskala.composeexercises.ui.samples.guesser.screen.CollectionProcessingGuesserScreen
 import com.marcinmoskala.composeexercises.ui.samples.guesser.screen.GameOverScreen
 import com.marcinmoskala.composeexercises.ui.samples.guesser.screen.StartScreen
@@ -27,7 +28,10 @@ fun GuesserScreen() {
     var gameState by remember { mutableStateOf<GameState>(Start) }
     when (val state = gameState) {
         is Start -> StartScreen(
-            onStart = { gameState = start() }
+            onStart = {
+                trackEvent("level_start", mapOf("level" to "1"))
+                gameState = start()
+            }
         )
 
         is Playing -> CollectionProcessingGuesserScreen(
@@ -40,7 +44,10 @@ fun GuesserScreen() {
 
         is GameOver -> GameOverScreen(
             level = state.score,
-            onPlayAgain = { gameState = start() }
+            onPlayAgain = {
+                trackEvent("level_start", mapOf("level" to "1"))
+                gameState = start()
+            }
         )
     }
 }
