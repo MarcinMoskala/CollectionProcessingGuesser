@@ -1,14 +1,1 @@
-This is a fun game written in Kotlin using Compose for Wasm. You can play it under [https://marcinmoskala.com/CollectionProcessingGuesser/](https://marcinmoskala.com/CollectionProcessingGuesser/).
-
-To run, use:
-
-```
-./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-```
-
-To deploy, use below command and push `/docs` to the repository:
-
-```
-./gradlew updateDocs
-```
-
+Project moved to a different repository, game can be found here: https://game.kt.academy/?game=collection-processing
